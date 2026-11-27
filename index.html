@@ -129,10 +129,11 @@
     *, *::before, *::after { box-sizing: border-box; }
 
     html, body {
-      height: 100%;
+      min-height: 100%;
       margin: 0;
       padding: 0;
-      min-height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
       font-family: var(--font-sans);
       background-color: var(--bg);
       color: var(--ink);
@@ -217,14 +218,37 @@
     }
 
     .topbar-inner {
-      max-width: 1180px;
+      max-width: 1540px;
+      width: min(100% - clamp(20px, 3vw, 48px), 1540px);
       margin: 0 auto;
       padding: 10px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
+    }
+
+    .home-return-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 13px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border: 1px solid var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .home-return-link:hover {
+      background: var(--accent);
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px var(--accent-soft);
     }
 
     .brand-btn {
@@ -347,10 +371,71 @@
        MAIN CONTAINER & SCREENS
        ===================================================================== */
     .app-shell {
-      min-height: 100dvh;
-      max-width: 1180px;
+      min-height: 100vh;
+      max-width: 1540px;
+      width: min(100% - clamp(20px, 3vw, 48px), 1540px);
       margin: 0 auto;
-      padding: 18px 16px 48px;
+      padding: 22px 16px 80px;
+    }
+
+    .quest-showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-top: 32px;
+    }
+    .showcase-card {
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .showcase-icon { font-size: 28px; line-height: 1; }
+    .showcase-card h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin: 0;
+      color: var(--ink);
+    }
+    .showcase-card p {
+      font-size: 0.95rem;
+      color: var(--ink-muted);
+      margin: 0;
+      line-height: 1.6;
+    }
+    .showcase-list {
+      margin: 8px 0 0;
+      padding-left: 20px;
+      font-size: 0.9rem;
+      color: var(--ink-muted);
+      line-height: 1.6;
+    }
+    .hint-preview-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .hp-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      background: var(--bg);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+    }
+    .hp-step span {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 11px;
     }
 
     .screen {
@@ -1607,11 +1692,20 @@
   <!-- Top Navigation Bar -->
   <header class="topbar">
     <div class="topbar-inner">
-      <button type="button" class="brand-btn" id="brandHomeBtn" aria-label="Loop Lab — Loop Quest Home">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <a href="https://python-concept-experience-challenge.vercel.app" class="home-return-link" id="homeReturnBtn" title="Return to Loop Lab main website" aria-label="Return to Loop Lab">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m3 10 9-7 9 7"/>
+            <path d="M5.5 9v11h13V9M9.5 20v-6h5v6"/>
+          </svg>
+          <span>← Loop Lab</span>
+        </a>
+        <button type="button" class="brand-btn" id="brandHomeBtn" aria-label="Loop Lab — Loop Quest Home">
         <span class="brand-mark"><span class="spin-arrow" aria-hidden="true">↻</span> loop lab</span>
         <span class="brand-divider" aria-hidden="true"></span>
         <span class="brand-game">Loop Quest</span>
       </button>
+      </div>
 
       <nav class="topbar-nav" aria-label="Game screens">
         <button type="button" class="nav-pill active" data-nav="start" id="navStartBtn">Home</button>
@@ -1767,6 +1861,40 @@
           <div aria-hidden="true">🎛️</div>
           <h3>Arcade Synth &amp; Themes</h3>
           <p>Procedural Web Audio sound effects, adaptive countdowns, and cream/navy theme switching.</p>
+        </div>
+      </div>
+
+      <!-- Extended Interactive Arcade Showcase Section -->
+      <div class="quest-showcase-grid">
+        <div class="card showcase-card">
+          <div class="showcase-icon">🕹️</div>
+          <h3>How to Play Loop Quest</h3>
+          <p>Each sector tests core Python concepts. Guide Looper forward by answering accurately before the circuit timer expires!</p>
+          <ul class="showcase-list">
+            <li><strong>3 Energy Cells (Lives):</strong> Incorrect answers cost 1 cell. Reach the goal node with lives intact!</li>
+            <li><strong>Streak Multiplier:</strong> Answer consecutive problems right to light up the streak flame and earn bonus XP.</li>
+            <li><strong>Timer Ring:</strong> Race against the clock — speed bonuses earn extra stars for the global leaderboard.</li>
+          </ul>
+        </div>
+
+        <div class="card showcase-card">
+          <div class="showcase-icon">🤖</div>
+          <h3>3-Stage AI Coach</h3>
+          <p>Stuck on an off-by-one error or nested loop? Tap <strong>Hint (H)</strong> to get real-time assistance:</p>
+          <div class="hint-preview-steps">
+            <div class="hp-step"><span>1</span> <em>Nudge:</em> A quick conceptual prompt</div>
+            <div class="hp-step"><span>2</span> <em>Clue:</em> Specific guidance on the problem line</div>
+            <div class="hp-step"><span>3</span> <em>Walkthrough:</em> Line-by-line code explanation</div>
+          </div>
+        </div>
+
+        <div class="card showcase-card">
+          <div class="showcase-icon">🌐</div>
+          <h3>Full Loop Lab Universe</h3>
+          <p>Reinforce what you learn in the arcade with the main Loop Lab visual simulators and topic guides.</p>
+          <a href="https://python-concept-experience-challenge.vercel.app" class="btn btn-primary" style="display:inline-flex;margin-top:12px;text-decoration:none;justify-content:center">
+            Explore All 25 Topic Guides ↗
+          </a>
         </div>
       </div>
     </section>
